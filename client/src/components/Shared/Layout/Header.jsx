@@ -23,7 +23,10 @@ const Header = () => {
             <ul className="navbar-nav flex-row">
                 <li className="nav-item mx-3">
                     <p className="nav-link">
-                    <FaUsers /> Welcome {user?.name} 
+                    <FaUsers /> Welcome{" "} 
+                    {user?.name || user?.hospitalName || user?.organisationName}{" "} 
+                    &nbsp;
+                    <span className="badge text-bg-secondary">{user?.role}</span>
                     </p> 
                 </li>
                 <li className="nav-item mx-3">
