@@ -1,18 +1,17 @@
-import React,{useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../components/Shared/Layout/Layout'
-import API from '../../services/API'
 import moment from 'moment'
+import API from '../../services/API'
 
-
-const Donar = () => {
+const OrganisationPage = () => {
     const [data, setData] = useState([])
-    // find donar records
-    const getDonars = async () => {
+    // find organisation records
+    const getOrg = async () => {
         try {
-            const {data} = await API.get('/inventory/get-donars')
+            const {data} = await API.get('/inventory/get-organisation')
             // console.log(data);
             if(data?.success){
-                setData(data?.donars);
+                setData(data?.organisations);
             }
 
         } catch (error) {
@@ -20,7 +19,7 @@ const Donar = () => {
         }
     }
     useEffect(() => {
-        getDonars();
+        getOrg();
     },[])
   return (
     <Layout>
@@ -31,15 +30,17 @@ const Donar = () => {
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
                   <th scope="col">Phone</th>
+                  <th scope="col">Address</th>
                   <th scope="col">Date</th>
                 </tr>
               </thead>
               <tbody>
                 {data?.map(record => (
                 <tr key={record._id}>
-                  <td>{record.name || record.organisationName + " (ORG)"}</td>
+                  <td>{record.organisationName}</td>
                   <td>{record.email}</td>
                   <td>{record.phone}</td>
+                  <td>{record.address}</td>
                   <td>{moment(record.createdAt).format('DD/MM/YYYY hh:mm A')}</td>
                 </tr>
 
@@ -52,4 +53,4 @@ const Donar = () => {
   )
 }
 
-export default Donar;
+export default OrganisationPage

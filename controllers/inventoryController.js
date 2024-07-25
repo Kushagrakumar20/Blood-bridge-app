@@ -108,4 +108,92 @@ const getInventoryController = async (req, res) => {
     }
 }
 
-export { createInventoryController, getInventoryController };
+
+// GET DONAR RECORDS
+const getDonarsControllers = async (req,res) => {
+    try {
+       const organisation = req.body.userId
+        // find donar
+        const donorId = await Inventory.distinct("donar",{
+            organisation
+        });
+        // console.log(donorId);
+        const donars = await User.find({_id: {$in: donorId}})
+        return res.status(200).send({
+            success: true,
+            message: 'Donar Record Fetched successfully',
+            donars
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            success:false,
+            message: 'Error in donar records',
+            error
+        })
+    }
+}
+
+
+const getHospitalController = async (req,res) => {
+    try {
+        const organisation = req.body.userId;
+        // GET HOSPITAL ID
+        const hospitalId = await Inventory.distinct("hospital",{organisation})
+        //  FIND HOSPITAL
+        const hospitals = await User.find({_id: {$in: hospitalId}})
+        return res.status(200).send({
+            success: true,
+            message: 'Hospital Record Fetched successfully',
+            hospitals
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            success: false,
+            message: 'Error in get Hospital API',
+            error
+        })
+    }
+};
+
+
+// GET ORG PROFILES
+const getOrganisationController = async (req, res) => {
+    try {
+        const donar = req.body.userId;
+        // const orgId = await Inventory.distinct("organisation",{donar})
+        // // find org
+        // const organisations = await User.find({
+        //     _id: {$in: orgId}
+            
+        // })
+        if(!donar)throw new Error("Error h bhai");
+        const curruser=await User.findOne({
+            _id:donar
+        })
+        let organisations;
+        if(curruser.role=="donar"){
+            organisations = await User.find({
+                role:"organisation"
+           })
+        }
+        
+        console.log(organisations);
+        return res.status(200).send({
+            success: true,
+            message : "org data fetched successfully",
+            organisations
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            success:false,
+            message: 'Error in get Org API',
+            error
+        })
+    }
+};
+
+
+export { createInventoryController, getInventoryController, getDonarsControllers, getHospitalController, getOrganisationController };
