@@ -1,6 +1,6 @@
 import express from "express";
 import { authMiddleware } from "../middleware/authMiddleware.js";
-import { createInventoryController, getInventoryController, getDonarsControllers, getHospitalController, getOrganisationController } from "../controllers/inventoryController.js";
+import { createInventoryController, getInventoryController, getDonarsControllers, getHospitalController, getOrganisationController, getOrganisationForHospitalController } from "../controllers/inventoryController.js";
 
 const router = express.Router()
 
@@ -23,6 +23,9 @@ router.get('/get-hospitals', authMiddleware, getHospitalController)
 
 // GET ORGANISATION RECORDS
 router.get('/get-organisation', authMiddleware, getOrganisationController)
+
+// GET ORGANISATION RECORDS
+router.get('/get-organisation-for-hospital', authMiddleware, getOrganisationForHospitalController)
 
 
 

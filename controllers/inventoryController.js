@@ -91,8 +91,9 @@ const createInventoryController = async (req, res) => {
 // GET ALL BLOOD RECORDS
 const getInventoryController = async (req, res) => {
     try {
-        const inventory = await Inventory.find({organisation: req.body.userId})
-        .populate('donar').populate('hospital').sort({createdAt: -1});
+        const inventory = await Inventory.find({organisation:req.body.userId})
+        console.log(req.body.userId);
+        // .populate('donar').populate('hospital').sort({createdAt: -1});
         return res.status(200).send({
             success: true,
             message: 'get all records successfully',
@@ -107,6 +108,7 @@ const getInventoryController = async (req, res) => {
         })
     }
 }
+
 
 
 // GET DONAR RECORDS
@@ -196,4 +198,42 @@ const getOrganisationController = async (req, res) => {
 };
 
 
-export { createInventoryController, getInventoryController, getDonarsControllers, getHospitalController, getOrganisationController };
+// GET ORG FOR HOSPITAL
+const getOrganisationForHospitalController = async (req, res) => {
+    try {
+        const hospital = req.body.userId;
+        // const orgId = await Inventory.distinct("organisation",{donar})
+        // // find org
+        // const organisations = await User.find({
+        //     _id: {$in: orgId}
+            
+        // })
+        if(!hospital)throw new Error("Error h bhai");
+        const curruser=await User.findOne({
+            _id:hospital
+        })
+        let organisations;
+        if(curruser.role=="hospital"){
+            organisations = await User.find({
+                role:"organisation"
+           })
+        }
+        
+        console.log(organisations);
+        return res.status(200).send({
+            success: true,
+            message : "org data fetched successfully",
+            organisations
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            success:false,
+            message: 'Error in get Org API',
+            error
+        })
+    }
+};
+
+
+export { createInventoryController, getInventoryController, getDonarsControllers, getHospitalController, getOrganisationController, getOrganisationForHospitalController };
