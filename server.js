@@ -2,6 +2,7 @@ import express from 'express';
 import { router as testRouter } from './routes/testRoutes.js'; 
 import { router as authRouter } from './routes/authRoutes.js';
 import { router as inventoryRouter } from './routes/inventoryRoutes.js';
+import { router as analyticsRouter } from './routes/analyticsRoutes.js';
 
 import { config as configDotenv } from 'dotenv';
 import morgan from 'morgan';
@@ -31,6 +32,7 @@ app.use(morgan('dev'))
 app.use('/api/v1/test', testRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/inventory', inventoryRouter);
+app.use('/api/v1/analytics', analyticsRouter);
 
 
 // port

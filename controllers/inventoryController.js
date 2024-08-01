@@ -109,6 +109,82 @@ const getInventoryController = async (req, res) => {
     }
 }
 
+// GET HOSPITAL BLOOD RECORDS
+const getInventoryHospitalController = async (req, res) => {
+    try {
+        // const filters = { ...req.body.filters, inventoryType: 'out' };
+        // const inventory = await Inventory.find(req.body.filters)
+        const inventory = await Inventory.find({
+            hospital:req.body.userId,
+        })
+        // console.log(inventory);
+        
+
+        // .populate('donar').populate('hospital').populate('organisation').sort({createdAt: -1});
+        return res.status(200).send({
+            success: true,
+            message: 'get hospital consumer records successfully',
+            inventory,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            success: false,
+            message: 'Error in get consumer inventory',
+            error
+        })
+    }
+}
+
+
+// GET BLOOD RECORDS OF 3
+const getRecentInventoryController = async (req,res) => {
+    try {
+        const inventory = await Inventory.find({
+            organisation: req.body.userId
+        }).limit(3).sort({createdAt: -1})
+        return res.status(200).send({
+            success: true,
+            message: 'get recent inventory successfully',
+            inventory
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            success: false,
+            message: 'Error in get recent inventory',
+            error
+        })
+    }
+}
+
+
+// GET DONAR BLOOD RECORDS
+const getInventoryDonarController = async (req, res) => {
+    try {
+        // const filters = { ...req.body.filters, inventoryType: 'out' };
+        // const inventory = await Inventory.find(req.body.filters)
+        const inventory = await Inventory.find({
+            donar:req.body.userId,
+        })
+        // console.log(inventory);
+        
+
+        // .populate('donar').populate('hospital').populate('organisation').sort({createdAt: -1});
+        return res.status(200).send({
+            success: true,
+            message: 'get donar donation records successfully',
+            inventory,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            success: false,
+            message: 'Error in get donation inventory',
+            error
+        })
+    }
+}
 
 
 // GET DONAR RECORDS
@@ -236,4 +312,4 @@ const getOrganisationForHospitalController = async (req, res) => {
 };
 
 
-export { createInventoryController, getInventoryController, getDonarsControllers, getHospitalController, getOrganisationController, getOrganisationForHospitalController };
+export { createInventoryController, getInventoryController, getDonarsControllers, getHospitalController, getOrganisationController, getOrganisationForHospitalController, getInventoryHospitalController, getInventoryDonarController, getRecentInventoryController };

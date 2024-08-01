@@ -1,6 +1,6 @@
 import express from "express";
 import { authMiddleware } from "../middleware/authMiddleware.js";
-import { createInventoryController, getInventoryController, getDonarsControllers, getHospitalController, getOrganisationController, getOrganisationForHospitalController } from "../controllers/inventoryController.js";
+import { createInventoryController, getInventoryController, getDonarsControllers, getHospitalController, getOrganisationController, getOrganisationForHospitalController,getInventoryHospitalController, getInventoryDonarController, getRecentInventoryController } from "../controllers/inventoryController.js";
 
 const router = express.Router()
 
@@ -12,6 +12,15 @@ router.post('/create-inventory', authMiddleware, createInventoryController)
 
 // GET ALL BLOOD RECORDS
 router.get('/get-inventory', authMiddleware, getInventoryController)
+
+// GET RECENT BLOOD RECORDS
+router.get('/get-recent-inventory', authMiddleware, getRecentInventoryController)
+
+// GET HOSPITAL BLOOD RECORDS
+router.post('/get-inventory-hospital', authMiddleware, getInventoryHospitalController)
+
+// GET DONAR BLOOD RECORDS
+router.post('/get-inventory-donar', authMiddleware, getInventoryDonarController)
 
 
 // GET DONAR RECORDS
